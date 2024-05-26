@@ -122,7 +122,7 @@ def train_lipnet(opts):
     elif model == 'conv3dlstmmini':
         model = Conv3DLSTMModelMini(vocab_size, hidden_size)
     else:
-        model = LipNet(vocab_size)
+        model = LipNet(vocab_size, hidden_size)
     
     optimizer = optim.Adam(model.parameters(), lr)
 

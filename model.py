@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.nn import init
 class Conv3DLSTMModel(nn.Module):
-    def __init__(self, vocab_size):
+    def __init__(self, vocab_size, hidden_size):
         super(Conv3DLSTMModel, self).__init__()
 
         self.conv1 = nn.Conv3d(1, 128, kernel_size=3, padding=1)
@@ -17,11 +17,11 @@ class Conv3DLSTMModel(nn.Module):
         self.relu3 = nn.ReLU()
         self.pool3 = nn.MaxPool3d(kernel_size=(1, 2, 2))
 
-        self.lstm1 = nn.LSTM(input_size=75 * 5 * 17, hidden_size=128,
+        self.lstm1 = nn.LSTM(input_size=75 * 5 * 17, hidden_size=hidden_size,
                               batch_first=True, bidirectional=True)
         self.dropout1 = nn.Dropout(0.5)
 
-        self.lstm2 = nn.LSTM(input_size=128 * 2, hidden_size=128,
+        self.lstm2 = nn.LSTM(input_size=128 * 2, hidden_size=hidden_size,
                              batch_first=True, bidirectional=True)
         self.dropout2 = nn.Dropout(0.5)
 
@@ -58,7 +58,7 @@ class Conv3DLSTMModel(nn.Module):
         return x
     
 class Conv3DLSTMModelMini(nn.Module):
-    def __init__(self, vocab_size):
+    def __init__(self, vocab_size, hidden_size):
         super(Conv3DLSTMModelMini, self).__init__()
 
         self.conv1 = nn.Conv3d(1, 64, kernel_size=3, padding=1)
@@ -67,7 +67,7 @@ class Conv3DLSTMModelMini(nn.Module):
         self.conv2 = nn.Conv3d(64, 128, kernel_size=3, padding=1)
         self.pool2 = nn.MaxPool3d(kernel_size=(1, 2, 2))
 
-        self.lstm1 = nn.LSTM(input_size=128 * 11 * 35, hidden_size=64,
+        self.lstm1 = nn.LSTM(input_size=128 * 11 * 35, hidden_size=hidden_size,
                               batch_first=True, bidirectional=True)
         self.dropout1 = nn.Dropout(0.3)
 
@@ -89,7 +89,7 @@ class Conv3DLSTMModelMini(nn.Module):
         return x
 
 class LipNet(nn.Module):
-    def __init__(self, dropout_p=0.5, vocab_size=40):
+    def __init__(self, vocab_size=40, hidden_size=256):
         super(LipNet, self).__init__()
         # Adjustments for the number of initial channels if needed
         self.conv1 = nn.Conv3d(1, 32, (3, 5, 5), (1, 2, 2), (1, 2, 2))
@@ -102,11 +102,11 @@ class LipNet(nn.Module):
         self.pool3 = nn.MaxPool3d((1, 2, 2), (1, 2, 2))
         
         # Adjust the input size according to the output from the last conv layer
-        self.lstm1 = nn.LSTM(96*2*8, 256, 1, batch_first=True, bidirectional=True)
-        self.lstm2 = nn.LSTM(512, 256, 1, batch_first=True, bidirectional=True)
+        self.lstm1 = nn.LSTM(96*2*8, hidden_size, 1, batch_first=True, bidirectional=True)
+        self.lstm2 = nn.LSTM(512, hidden_size, 1, batch_first=True, bidirectional=True)
         
         self.dense = nn.Linear(512, vocab_size)
-        self.dropout_p = dropout_p
+        self.dropout_p = 0.5
 
         self.relu = nn.ReLU(inplace=True)
         self.dropout = nn.Dropout(self.dropout_p)
