@@ -154,7 +154,7 @@ def train_lipnet(opts):
         if ((epoch + 1) > ((epoch // 100) * 100 + 60)) and ((epoch + 1) <= ((epoch // 100) + 1) * 100):
             optimizer.param_groups[0]["lr"] *= np.exp(-0.1)
         else:
-            optimizer.param_groups[0]["lr"] *= lr
+            optimizer.param_groups[0]["lr"] = lr
 
         summary_loss["train_loss"].append(train_loss)
         summary_loss["valid_loss"].append(valid_loss)

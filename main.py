@@ -20,12 +20,16 @@ def save_json(data, filename):
     with open(filename, 'w') as file:
         json.dump(data, file)
 
-if __file__ == '__main__':
+if __name__ == '__main__':
 
     # Get the parser with argument definitions
     parser = get_parser()
 
     opts = parser.parse_args()
+
+    print("EPOCHS:",opts.epoch)
+    print("learning rate:", opts.lr)
+    print("hidden_size:", opts.hidden_size)
 
     url = 'https://drive.google.com/uc?id=1YlvpDLix3S-U8fd-gqRwPcWXAXm8JwjL'
     output = 'data.zip'
@@ -37,10 +41,10 @@ if __file__ == '__main__':
 
     print("Data Install...\n Saved in data/")
 
-    print("Training...")
-    print("~"*200)
-    summary = train_lipnet(opts=opts)
-    summary["opts" : opts]
-    print("~"*200)
-    print("Finished training")
-    save_json(summary, "summary.json")
+    # print("Training...")
+    # print("~"*200)
+    # # summary = train_lipnet(opts=opts)
+    # # summary["opts" : opts]
+    # print("~"*200)
+    # print("Finished training")
+    # # save_json(summary, "summary.json")
