@@ -24,9 +24,9 @@ venv suggested..
 python -m venv lipenv
 source lipenv/bin/activate
 ```
-Clone the repo and navigate..
+Install gdown for downloading the [dataset](https://drive.google.com/uc?id=1YlvpDLix3S-U8fd-gqRwPcWXAXm8JwjL) from drive
 ```
-pip install requirements.txt
+pip install gdown
 ```
 
 #### Train your model
@@ -35,7 +35,7 @@ pip install requirements.txt
 python main.py --epoch 300 \
                --lr 0.001  \
                --hidden_size 256  \
-               --model {default)lipnet-lstm \
+               --model lipnet-lstm \
                --batch 16 \
                --workers 4
 ```
