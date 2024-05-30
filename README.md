@@ -1,6 +1,6 @@
 ## lipnet-pytorch
-The code is based on the paper LipNet: End-to-End Sentence-level Lipreading. LipNet utilizes 3D Convolutions and Recurrent Units for make sentence level prediction from through extracting lip movment features from the input frames.
-This implementation provides 3DConv-Bi-LSTM over the 3DConv-GRU model along with few other with other a few other model with varying complexity. CTC loss is used to deal with variable length of input alignments (spoken sentences). The model weights are initialised with the same (he) initialization as proposed in the paper.
+The code is based on the paper LipNet: End-to-End Sentence-level Lipreading. LipNet utilizes 3D Convolutions and Recurrent Units to make sentence level prediction by extracting features from the lip movment in the input frames.
+This implementation provides 3DConv-Bi-LSTM over the 3DConv-GRU model along with a few other models with varying complexity. CTC loss is used to deal with variable length of input alignments (spoken sentences). The model weights are initialised with the same (he) initialization as proposed in the paper.
 
 
 
