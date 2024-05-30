@@ -26,8 +26,26 @@ class Conv3DLSTMModel(nn.Module):
         self.dropout2 = nn.Dropout(0.5)
 
         self.dense = nn.Linear(128 * 2, vocab_size)
-        self.softmax = nn.Softmax(dim=-1)
+        self.__initweights__()    
 
+    def __initweights__(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv3d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.LSTM):
+                for name, param in m.named_parameters():
+                    if 'weight_ih' in name:
+                        nn.init.kaiming_normal_(param.data, mode='fan_out', nonlinearity='relu')
+                    elif 'weight_hh' in name:
+                        nn.init.kaiming_normal_(param.data, mode='fan_out', nonlinearity='relu')
+                    elif 'bias' in name:
+                        param.data.fill_(0)
+            elif isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                nn.init.constant_(m.bias, 0)
+                
     def forward(self, x):
         # Apply the sequence of conv, relu activations and max pooling
         x = self.conv1(x)
